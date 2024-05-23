@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemingProvider Theme="@customizacaoCores" />
+<MudLayout>
+    <MudAppBar Elevation="1" Color="Color.Primary">
+        <MudText Typo="Typo.h5" Class="ml-3">TemTrampo</MudText>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent Class="mt-16 pa-4">
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+    private MudTheme customizacaoCores = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Primary = Colors.Red.Darken4,
+            Secondary = Colors.BlueGrey.Lighten5
+        }
+    };
+}

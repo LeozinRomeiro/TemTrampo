@@ -1,0 +1,74 @@
+﻿@page "/cadastrar"
+@inject AppDbContext _context
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<EditForm Model="@model" OnValidSubmit="@SubmeterValido">
+    <DataAnnotationsValidator />
+    <MudGrid >
+        <MudItem xs="12">
+            <MudText Typo="Typo.h5">Cadastre sua vaga disponivel</MudText>
+            <MudText Typo="Typo.body2" Align="Align.Center">
+                <ValidationSummary/>
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField @bind-Value="@model.Titulo" Label="Titulo" />
+                    <MudTextField @bind-Value="@model.Numero" Label="Numero" InputType="InputType.Telephone" />
+                    <MudTextField @bind-Value="@model.Email" Label="Email" InputType="InputType.Email" />
+                    <MudTextField @bind-Value="@model.Empresa" Label="Empresa" />
+                    <MudTextField @bind-Value="@model.Escolaridade" Label="Escolaridade" />
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField @bind-Value="@model.Descricao" Label="Descricao" />
+                    <MudTextField @bind-Value="@model.Requisito" Label="Requisito" />
+                    <MudTextField @bind-Value="@model.Desejavel" Label="Desejavel" />
+                    <MudTextField @bind-Value="@model.Beneficios" Label="Beneficios" />
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+    <MudCardActions>
+        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Cadastrar</MudButton>
+    </MudCardActions>
+</EditForm>
+
+@code {
+    private VagaViewModel model = new VagaViewModel();
+
+    private async Task SubmeterValido()
+    {
+        try
+        {
+            var vaga = new Vaga
+            {
+                Titulo = model.Titulo,
+                Numero = model.Numero,
+                Email = model.Email,
+                Empresa = model.Empresa,
+                Escolaridade = model.Escolaridade,
+                Descricao = model.Descricao,
+                Requisito = model.Requisito,
+                Desejavel = model.Desejavel,
+                Beneficios = model.Beneficios
+
+            };
+            await _context.Vagas.AddAsync(vaga);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao submeter o formulário: {ex.Message}");
+        }
+
+    }
+}
