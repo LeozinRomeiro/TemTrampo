@@ -3,7 +3,10 @@
 <MudThemingProvider Theme="@customizacaoCores" />
 <MudLayout>
     <MudAppBar Elevation="1" Color="Color.Primary">
-        <MudText Typo="Typo.h5" Class="ml-3">TemTrampo</MudText>
+        <MudCardContent >
+            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Work"></MudNavLink>
+            <MudText Typo="Typo.h5" Class="ml-3">TemTrampo</MudText>
+        </MudCardContent>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />

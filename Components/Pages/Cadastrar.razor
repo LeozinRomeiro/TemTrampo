@@ -12,27 +12,27 @@
         <MudItem xs="12">
             <MudText Typo="Typo.h5">Cadastre sua vaga disponivel</MudText>
             <MudText Typo="Typo.body2" Align="Align.Center">
-                <ValidationSummary/>
+                <ValidationSummary />
             </MudText>
         </MudItem>
         <MudItem xs="12" sm="6">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField @bind-Value="@model.Titulo" Label="Titulo" />
-                    <MudTextField @bind-Value="@model.Numero" Label="Numero" InputType="InputType.Telephone" />
-                    <MudTextField @bind-Value="@model.Email" Label="Email" InputType="InputType.Email" />
-                    <MudTextField @bind-Value="@model.Empresa" Label="Empresa" />
-                    <MudTextField @bind-Value="@model.Escolaridade" Label="Escolaridade" />
+                    <MudTextField @bind-Value="@model.Titulo" Label="Titulo" For="@(() => model.Titulo)"/>
+                    <MudTextField @bind-Value="@model.Numero" Label="Numero" InputType="InputType.Telephone" For="@(() => model.Numero)" />
+                    <MudTextField @bind-Value="@model.Email" Label="Email" InputType="InputType.Email" For="@(() => model.Email)" />
+                    <MudTextField @bind-Value="@model.Empresa" Label="Empresa" For="@(() => model.Empresa)" />
+                    <MudTextField @bind-Value="@model.Escolaridade" Label="Escolaridade" For="@(() => model.Escolaridade)" />
                 </MudCardContent>
             </MudCard>
         </MudItem>
         <MudItem xs="12" sm="6">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField @bind-Value="@model.Descricao" Label="Descricao" />
-                    <MudTextField @bind-Value="@model.Requisito" Label="Requisito" />
-                    <MudTextField @bind-Value="@model.Desejavel" Label="Desejavel" />
-                    <MudTextField @bind-Value="@model.Beneficios" Label="Beneficios" />
+                    <MudTextField @bind-Value="@model.Descricao" Label="Descricao" For="@(() => model.Descricao)" />
+                    <MudTextField @bind-Value="@model.Requisito" Label="Requisito" For="@(() => model.Requisito)" />
+                    <MudTextField @bind-Value="@model.Desejavel" Label="Desejavel" For="@(() => model.Desejavel)" />
+                    <MudTextField @bind-Value="@model.Beneficios" Label="Beneficios" For="@(() => model.Beneficios)" />
                 </MudCardContent>
             </MudCard>
         </MudItem>
