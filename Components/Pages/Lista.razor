@@ -1,0 +1,59 @@
+﻿@page "/vagas"
+@using System.Globalization
+@inject AppDbContext _context
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Vagas de Emprego</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Vagas de Emprego Disponíveis</MudText>
+
+@if (vagas == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudDataGrid T="Vaga" MultiSelection="true" Items="@vagas" SortMode="SortMode.Multiple" Filterable="true" Culture="@(new CultureInfo("pt-br"))" RowsPerPageString="Linhas por pagina"
+                 Hideable="true">
+        @*         <ToolBarContent>
+    <MudText Typo="Typo.h6">Periodic Elements</MudText>
+    <MudSpacer />
+    <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+    AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent> *@
+
+        <Columns>
+            <SelectColumn T="Vaga" />
+            <PropertyColumn Property="x => x.Titulo" Title="Titulo" Sortable="false" Filterable="false" />
+            <PropertyColumn Property="x => x.Empresa" />
+            <PropertyColumn Property="x => x.Email" />
+            <PropertyColumn Property="x => x.Numero" />
+            <PropertyColumn Property="x => x.Escolaridade" />
+            <PropertyColumn Property="x => x.Requisito" />
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="Vaga" RowsPerPageString="Linhas por página" />
+        </PagerContent>
+    </MudDataGrid>
+
+}
+
+@code {
+    private List<Vaga> vagas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            vagas = await _context.Vagas.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao buscar as vagas: {ex.Message}");
+        }
+    }
+}

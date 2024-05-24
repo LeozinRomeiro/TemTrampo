@@ -3,9 +3,9 @@
 <MudThemingProvider Theme="@customizacaoCores" />
 <MudLayout>
     <MudAppBar Elevation="1" Color="Color.Primary">
-        <MudCardContent >
-            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Work"></MudNavLink>
-            <MudText Typo="Typo.h5" Class="ml-3">TemTrampo</MudText>
+        <MudCardContent Class="d-flex align-items-center">
+            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Work" IconColor="@Color.Secondary" />
+            <MudText Typo="Typo.h5" Class="ml-2 align-content-center" Color="@Color.Secondary">TemTrampo</MudText>
         </MudCardContent>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
