@@ -1,0 +1,55 @@
+﻿@inherits LayoutComponentBase
+
+@if (Vagas == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudDataGrid T="Vaga" MultiSelection="true" Items="@Vagas" SortMode="SortMode.Multiple" Filterable="true" Culture="@(new CultureInfo("pt-br"))" RowsPerPageString="Linhas por pagina"
+                 Hideable="true">
+        @*         <ToolBarContent>
+    <MudText Typo="Typo.h6">Periodic Elements</MudText>
+    <MudSpacer />
+    <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+    AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent> *@
+
+        <Columns>
+            <SelectColumn T="Vaga" />
+            <PropertyColumn Property="x => x.Titulo" Title="Titulo" Sortable="false" Filterable="false" />
+            <PropertyColumn Property="x => x.Descricao" />
+            <PropertyColumn Property="x => x.Requisito" />
+            <PropertyColumn Property="x => x.Escolaridade" />
+            <PropertyColumn Property="x => x.Desejavel" />
+            <PropertyColumn Property="x => x.Beneficios" />
+            @if (!MinhasVagas)
+            {
+                <PropertyColumn Property="x => x.Empresa" />
+                <PropertyColumn Property="x => x.Email" />
+                <PropertyColumn Property="x => x.Numero" />
+            }
+            else
+            {
+                <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" Title="Operadores">
+                    <CellTemplate>
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" Size="@Size.Small" />
+                        <MudIconButton Icon="@Icons.Material.Outlined.Delete" Size="@Size.Small" />
+                    </CellTemplate>
+                </TemplateColumn>
+            }
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="Vaga" RowsPerPageString="Linhas por página" />
+        </PagerContent>
+    </MudDataGrid>
+
+}
+
+@code {
+    [Parameter]
+    public bool MinhasVagas { get; set; } = true;
+    [Parameter]
+    [EditorRequired]
+    public List<Vaga>? Vagas { get; set; }
+}
