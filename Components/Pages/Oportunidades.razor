@@ -1,0 +1,30 @@
+﻿@page "/oportunidades"
+@inject AppDbContext _context
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Vagas de Emprego</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Vagas de Emprego Disponíveis</MudText>
+<Tabela MinhasVagas='false' Vagas="vagas"></Tabela>
+
+
+
+@code {
+    private List<Vaga>? vagas = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            vagas = await _context.Vagas.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao buscar as vagas: {ex.Message}");
+        }
+    }
+}

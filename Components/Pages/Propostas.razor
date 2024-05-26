@@ -1,0 +1,39 @@
+﻿@page "/propostas"
+@inject AppDbContext _context
+@rendermode InteractiveServer
+@inject IDialogService DialogService
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Propostas de Vagas</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Gerencie suas propostas</MudText>
+<MudButton @onclick="AbrirFormulario" Variant="Variant.Filled" Color="Color.Primary">
+    Cadastrar nova vaga
+</MudButton>
+<Tabela MinhasVagas='true' Vagas="vagas"></Tabela>
+
+
+
+@code {
+    private List<Vaga>? vagas = null;
+
+    private void AbrirFormulario(){
+        var options = new DialogOptions { ClassBackground = "backdrop-filter: blur(10px);" };
+        DialogService.Show<Formulario>("Cadastre sua vaga disponivel", options);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            vagas = await _context.Vagas.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao buscar as vagas: {ex.Message}");
+        }
+    }
+}
