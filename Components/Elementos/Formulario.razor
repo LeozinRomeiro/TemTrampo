@@ -7,15 +7,14 @@
             <MudGrid>
                 <MudItem xs="12">
                     <MudText Typo="Typo.body2" Align="Align.Center">
-                        <ValidationSummary />
                     </MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudCard>
                         <MudCardContent>
                             <MudTextField @bind-Value="@model.Titulo" Label="Titulo" For="@(() => model.Titulo)" />
-                            <MudTextField @bind-Value="@model.Numero" Label="Numero" InputType="InputType.Telephone" For="@(() => model.Numero)" />
-                            <MudTextField @bind-Value="@model.Email" Label="Email" InputType="InputType.Email" For="@(() => model.Email)" />
+
+                            <MudTextField Lines="10" @bind-Value="@model.Descricao" Label="Descricao" For="@(() => model.Descricao)" />
                             <MudTextField @bind-Value="@model.Empresa" Label="Empresa" For="@(() => model.Empresa)" />
                             <MudTextField @bind-Value="@model.Escolaridade" Label="Escolaridade" For="@(() => model.Escolaridade)" />
                         </MudCardContent>
@@ -24,22 +23,22 @@
                 <MudItem xs="12" sm="6">
                     <MudCard>
                         <MudCardContent>
-                            <MudTextField @bind-Value="@model.Descricao" Label="Descricao" For="@(() => model.Descricao)" />
-                            <MudTextField @bind-Value="@model.Requisito" Label="Requisito" For="@(() => model.Requisito)" />
-                            <MudTextField @bind-Value="@model.Desejavel" Label="Desejavel" For="@(() => model.Desejavel)" />
-                            <MudTextField @bind-Value="@model.Beneficios" Label="Beneficios" For="@(() => model.Beneficios)" />
+                            <MudTextField @bind-Value="@model.Email" Label="Email" InputType="InputType.Email" For="@(() => model.Email)" />
+                            <MudTextField @bind-Value="@model.Numero" Label="Numero" For="@(() => model.Numero)" InputType="InputType.Telephone" />
+                            <MudTextField Lines="3" @bind-Value="@model.Requisito" Label="Requisito" For="@(() => model.Requisito)" />
+                            <MudTextField Lines="3" @bind-Value="@model.Desejavel" Label="Desejavel" For="@(() => model.Desejavel)" />
+                            <MudTextField Lines="3" @bind-Value="@model.Beneficios" Label="Beneficios" For="@(() => model.Beneficios)" />
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
+                <MudCardActions >
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Cadastrar</MudButton>
+                </MudCardActions>
             </MudGrid>
-            <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Cadastrar</MudButton>
-            </MudCardActions>
         </EditForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="Cancel">Cancelar</MudButton>
     </DialogActions>
 </MudDialog>
 

@@ -1,14 +1,19 @@
 ﻿@inherits LayoutComponentBase
-
 <MudThemingProvider Theme="@customizacaoCores" />
 <MudLayout>
     <MudAppBar Elevation="1" Color="Color.Primary">
-        <MudCardContent Class="d-flex align-items-center">
-            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Work" IconColor="@Color.Secondary" />
-            <MudText Typo="Typo.h5" Class="ml-2 align-content-center" Color="@Color.Secondary">TemTrampo</MudText>
-        </MudCardContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            <MudGrid Justify="Justify.Center" Style="align-items: center;">
+                <MudItem xs="24" md="1">
+                    <MudNavLink Class="d-flex justify-center align-items-center" Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Work" IconColor="@Color.Secondary" />
+                </MudItem>
+                <MudItem xs="12" md="2">
+                    <MudText Typo="Typo.h5" Style="align-items: center;" Color="@Color.Secondary">TemTrampo</MudText>
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+    <MudDrawer ClipMode="DrawerClipMode.Always" Elevation="2" Open="@drawerOpen" >
         <NavMenu />
     </MudDrawer>
     <MudMainContent Class="mt-16 pa-4">
@@ -17,18 +22,20 @@
 </MudLayout>
 
 @code {
-    private bool _drawerOpen = true;
-
-    private void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
     private MudTheme customizacaoCores = new MudTheme()
-    {
-        Palette = new Palette()
         {
-            Primary = Colors.Red.Darken4,
-            Secondary = Colors.BlueGrey.Lighten5
-        }
-    };
+            Palette = new Palette()
+            {
+                Primary = Colors.Red.Darken4,
+                Secondary = Colors.BlueGrey.Lighten5
+            }
+        };
+
+    private bool drawerOpen = true;
+
+    private async Task DrawerToggle()
+    {
+        drawerOpen = !drawerOpen;
+        Console.WriteLine("teste"+drawerOpen.ToString());
+    }
 }

@@ -3,16 +3,17 @@
 @rendermode InteractiveServer
 @inject IDialogService DialogService
 
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
-
 <PageTitle>Propostas de Vagas</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">Gerencie suas propostas</MudText>
-<MudButton @onclick="AbrirFormulario" Variant="Variant.Filled" Color="Color.Primary">
-    Cadastrar nova vaga
-</MudButton>
+
+<MudGrid Justify="Justify.FlexEnd">
+    <MudItem xs="12" sm="6" md="2">
+        <MudButton @onclick="AbrirFormulario" Variant="Variant.Outlined" Color="Color.Primary" Style="margin: 10px">
+            Cadastrar nova vaga
+        </MudButton>
+    </MudItem>
+</MudGrid>
 <Tabela MinhasVagas='true' Vagas="vagas"></Tabela>
 
 
@@ -21,7 +22,7 @@
     private List<Vaga>? vagas = null;
 
     private void AbrirFormulario(){
-        var options = new DialogOptions { ClassBackground = "backdrop-filter: blur(10px);" };
+        var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true, Position=DialogPosition.Center };
         DialogService.Show<Formulario>("Cadastre sua vaga disponivel", options);
     }
 
