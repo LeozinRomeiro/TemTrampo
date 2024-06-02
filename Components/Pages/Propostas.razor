@@ -2,6 +2,11 @@
 @inject AppDbContext _context
 @rendermode InteractiveServer
 @inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <PageTitle>Propostas de Vagas</PageTitle>
 
@@ -9,24 +14,34 @@
 
 <MudGrid Justify="Justify.FlexEnd">
     <MudItem xs="12" sm="6" md="2">
-        <MudButton @onclick="AbrirFormulario" Variant="Variant.Outlined" Color="Color.Primary" Style="margin: 10px">
+        <MudButton OnClick="()=>AbrirFormulario(null)" Variant="Variant.Outlined" Color="Color.Primary" Style="margin: 10px">
             Cadastrar nova vaga
         </MudButton>
     </MudItem>
 </MudGrid>
-<Tabela MinhasVagas='true' Vagas="vagas"></Tabela>
+<Tabela MinhasVagas='true' Vagas="vagas" Editar="AbrirFormulario"></Tabela>
 
 
 
 @code {
     private List<Vaga>? vagas = null;
 
-    private void AbrirFormulario(){
+    private void AbrirFormulario(Vaga? vaga = null)
+    {
         var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true, Position=DialogPosition.Center };
-        DialogService.Show<Formulario>("Cadastre sua vaga disponivel", options);
+        var parameters = new DialogParameters();
+        parameters.Add("vaga", vaga);
+        parameters.Add("RecarregarVagas", EventCallback.Factory.Create(this, CarregarVagasAsync));
+        DialogService.Show<Formulario>("Cadastre sua vaga disponivel", parameters: parameters, options);
     }
 
+
     protected override async Task OnInitializedAsync()
+    {
+        await CarregarVagasAsync();
+    }
+
+    private async Task CarregarVagasAsync()
     {
         try
         {
@@ -34,7 +49,7 @@
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro ao buscar as vagas: {ex.Message}");
+            Snackbar.Add(ex.Message, Severity.Error);
         }
     }
 }

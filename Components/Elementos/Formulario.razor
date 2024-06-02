@@ -1,4 +1,5 @@
 ﻿@inject AppDbContext _context
+@inject ISnackbar Snackbar
 
 <MudDialog>
     <DialogContent>
@@ -44,31 +45,79 @@
 
 
 @code {
-    private VagaViewModel model = new VagaViewModel();
+    [Parameter]
+    public VagaViewModel model { get; set; } = new VagaViewModel();
+    [Parameter]
+    public Vaga? vaga { get; set; }
+    [Parameter]
+    public EventCallback RecarregarVagas { get; set; }
+    protected override void OnInitialized()
+    {
+        if (vaga != null)
+        {
+            model = new VagaViewModel
+                {
+                    Titulo = vaga.Titulo,
+                    Numero = vaga.Numero,
+                    Email = vaga.Email,
+                    Empresa = vaga.Empresa,
+                    Escolaridade = vaga.Escolaridade,
+                    Descricao = vaga.Descricao,
+                    Requisito = vaga.Requisito,
+                    Desejavel = vaga.Desejavel,
+                    Beneficios = vaga.Beneficios
+                };
+        }
+    }
+
 
     private async Task SubmeterValido()
     {
         try
         {
-            var vaga = new Vaga
-                {
-                    Titulo = model.Titulo,
-                    Numero = model.Numero,
-                    Email = model.Email,
-                    Empresa = model.Empresa,
-                    Escolaridade = model.Escolaridade,
-                    Descricao = model.Descricao,
-                    Requisito = model.Requisito,
-                    Desejavel = model.Desejavel,
-                    Beneficios = model.Beneficios
+            if (vaga != null)
+            {
+                vaga.Titulo = model.Titulo;
+                vaga.Numero = model.Numero;
+                vaga.Email = model.Email;
+                vaga.Empresa = model.Empresa;
+                vaga.Escolaridade = model.Escolaridade;
+                vaga.Descricao = model.Descricao;
+                vaga.Requisito = model.Requisito;
+                vaga.Desejavel = model.Desejavel;
+                vaga.Beneficios = model.Beneficios;
 
-                };
-            await _context.Vagas.AddAsync(vaga);
-            await _context.SaveChangesAsync();
+                _context.Vagas.Update(vaga);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var vagaValidada = new Vaga
+                    {
+                        Titulo = model.Titulo,
+                        Numero = model.Numero,
+                        Email = model.Email,
+                        Empresa = model.Empresa,
+                        Escolaridade = model.Escolaridade,
+                        Descricao = model.Descricao,
+                        Requisito = model.Requisito,
+                        Desejavel = model.Desejavel,
+                        Beneficios = model.Beneficios
+
+                    };
+                await _context.Vagas.AddAsync(vagaValidada);
+                await _context.SaveChangesAsync();
+            }
+            Snackbar.Add("Vaga registrada com sucesso", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(true));
+            if (RecarregarVagas.HasDelegate)
+            {
+                await RecarregarVagas.InvokeAsync();
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro ao submeter o formulário: {ex.Message}");
+            Snackbar.Add(ex.Message, Severity.Error);
         }
 
     }

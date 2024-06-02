@@ -1,9 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject AppDbContext _context
 @inject ISnackbar Snackbar
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+@inject IDialogService DialogService
 
 @if (Vagas == null)
 {
@@ -30,7 +28,7 @@ else
             {
                 <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" Title="Operadores" Class="d-flex justify-end">
                     <CellTemplate>
-                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" Size="@Size.Small" Color="Color.Dark"  />
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" Size="@Size.Small" Color="Color.Dark" OnClick="() => EditarVaga(context.Item)" />
                         <MudIconButton Icon="@Icons.Material.Outlined.Delete" Size="@Size.Small" Color="Color.Primary" OnClick="() => DeletarAsync(context.Item)" />
                     </CellTemplate>
                 </TemplateColumn>
@@ -49,15 +47,33 @@ else
     [Parameter]
     [EditorRequired]
     public List<Vaga>? Vagas { get; set; }
+    [Parameter]
+    public EventCallback<Vaga> Editar { get; set; }
+
+    private async Task EditarVaga(Vaga vaga)
+    {
+        await Editar.InvokeAsync(vaga);
+    }
 
     private async Task DeletarAsync(Vaga vaga)
     {
         try
         {
-            _context.Remove(vaga);
-            await _context.SaveChangesAsync();
-            Vagas.Remove(vaga); // Atualize a lista local para reflexão imediata da IU
-            StateHasChanged();
+            var confirmarExclusao = await DialogService.ShowMessageBox(
+            "ATENÇÃO",
+            $"Ao prosseguir a vaga {vaga.Titulo} será removida. Deseja continuar?",
+            yesText: "Excluir",
+            cancelText: "Cancelar");
+
+            if (confirmarExclusao is true)
+            {
+                _context.Remove(vaga);
+                await _context.SaveChangesAsync();
+                Vagas.Remove(vaga);
+                StateHasChanged();
+                Snackbar.Add("Vaga excluida!", Severity.Info);
+            }
+
         }
         catch (Exception ex)
         {
