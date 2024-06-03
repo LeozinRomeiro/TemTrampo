@@ -13,9 +13,7 @@
             </MudGrid>
         </MudContainer>
     </MudAppBar>
-    <MudDrawer ClipMode="DrawerClipMode.Always" Elevation="2" Open="@drawerOpen" >
-        <NavMenu />
-    </MudDrawer>
+    <Menu></Menu>
     <MudMainContent Class="mt-16 pa-4">
         @Body
     </MudMainContent>
@@ -31,11 +29,4 @@
             }
         };
 
-    private bool drawerOpen = true;
-
-    private async Task DrawerToggle()
-    {
-        drawerOpen = !drawerOpen;
-        Console.WriteLine("teste"+drawerOpen.ToString());
-    }
 }

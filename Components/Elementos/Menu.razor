@@ -1,0 +1,23 @@
+﻿<MudDrawer ClipMode="DrawerClipMode.Always" Open="@open"
+           Breakpoint="@Breakpoint.Lg"
+           Elevation="1"
+           Variant="@DrawerVariant.Mini"
+           OpenMiniOnHover="true">
+    <MudNavMenu >
+        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+        <MudNavLink Href="oportunidades" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Oportunidades</MudNavLink>
+        <MudNavLink Href="propostas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.EditNote">Propostas</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
+
+@code {
+    bool open = true;
+    bool dense = false;
+    DrawerClipMode clipMode = DrawerClipMode.Never;
+
+    void ToggleDrawer()
+    {
+        open = false;
+        StateHasChanged();
+    }
+}
