@@ -2,10 +2,13 @@
 @inject ISnackbar Snackbar
 
 <MudDialog>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled"  Color="Color.Surface" OnClick="Cancel">Cancelar</MudButton>
+    </DialogActions>
     <DialogContent>
         <EditForm Model="@model" OnValidSubmit="@SubmeterValido">
             <DataAnnotationsValidator />
-            <MudGrid>
+            <MudGrid Justify="Justify.Center" Style="align-items">
                 <MudItem xs="12">
                     <MudText Typo="Typo.body2" Align="Align.Center">
                     </MudText>
@@ -32,15 +35,13 @@
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
-                <MudCardActions >
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Cadastrar</MudButton>
+                <MudCardActions Class="d-flex align-items-center">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">@OperacaoTexto</MudButton>
                 </MudCardActions>
             </MudGrid>
         </EditForm>
     </DialogContent>
-    <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="Cancel">Cancelar</MudButton>
-    </DialogActions>
+
 </MudDialog>
 
 
@@ -51,6 +52,7 @@
     public Vaga? vaga { get; set; }
     [Parameter]
     public EventCallback RecarregarVagas { get; set; }
+    private string OperacaoTexto = "Cadastrar";
     protected override void OnInitialized()
     {
         if (vaga != null)
@@ -67,6 +69,11 @@
                     Desejavel = vaga.Desejavel,
                     Beneficios = vaga.Beneficios
                 };
+            OperacaoTexto = "Salvar";
+        }
+        else
+        {
+            OperacaoTexto = "Cadastrar";
         }
     }
 
