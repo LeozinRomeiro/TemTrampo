@@ -2,6 +2,7 @@
 @inject AppDbContext _context
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
+@inject NavigationManager Navigation
 
 @if (Vagas == null)
 {
@@ -22,16 +23,22 @@ else
             {
                 <PropertyColumn Property="x => x.Empresa" />
                 <PropertyColumn Property="x => x.Email" />
-                <PropertyColumn Property="x => x.Numero" />
+                <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" Title="WhatsApp" Class="d-flex justify-end">
+                    <CellTemplate>
+                        <MudIconButton Icon="@Icons.Material.Filled.Whatsapp" Size="@Size.Large" Color="Color.Success" OnClick="() => AbrirWhatsApp(context.Item.Numero)" />
+                    </CellTemplate>
+                </TemplateColumn>
             }
             else
             {
+                <PropertyColumn Property="x => x.Numero" />
                 <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" Title="Operadores" Class="d-flex justify-end">
                     <CellTemplate>
                         <MudIconButton Icon="@Icons.Material.Outlined.Edit" Size="@Size.Small" Color="Color.Dark" OnClick="() => EditarVaga(context.Item)" />
                         <MudIconButton Icon="@Icons.Material.Outlined.Delete" Size="@Size.Small" Color="Color.Primary" OnClick="() => DeletarAsync(context.Item)" />
                     </CellTemplate>
                 </TemplateColumn>
+
             }
         </Columns>
         <PagerContent>
@@ -49,6 +56,12 @@ else
     public List<Vaga>? Vagas { get; set; }
     [Parameter]
     public EventCallback<Vaga> Editar { get; set; }
+
+    private void AbrirWhatsApp(string numero)
+    {
+        var url = $"https://api.whatsapp.com/send?phone={numero.Replace(" ", "").Replace("-", "").Replace("+", "")}";
+        Navigation.NavigateTo(url, true);
+    }
 
     private async Task EditarVaga(Vaga vaga)
     {
