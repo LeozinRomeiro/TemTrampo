@@ -14,8 +14,11 @@ builder.Services.AddRazorComponents()
 builder.Services.AddTransient<MudLocalizer, DictionaryMudLocalizer>();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 builder.Services.AddMudServices();
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao") ?? throw new InvalidOperationException("Connection string não informada.")));
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao") ?? throw new InvalidOperationException("Connection string não informada.")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("ConexaoPadraoLite") ?? throw new InvalidOperationException("Connection string não informada.")));
 
 var app = builder.Build();
 
